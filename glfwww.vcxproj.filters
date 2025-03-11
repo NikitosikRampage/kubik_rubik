@@ -13,13 +13,37 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="glad">
+      <UniqueIdentifier>{84ebea43-cf92-4b0d-8ee9-df993d2c9085}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="test.c">
-      <Filter>Файлы ресурсов</Filter>
+    <ClCompile Include="..\..\..\Desktop\all the shit\glad\src\glad.c">
+      <Filter>glad</Filter>
     </ClCompile>
     <ClCompile Include="shader.c">
-      <Filter>Файлы ресурсов</Filter>
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="test.c">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="shader.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="vert.vs">
+      <Filter>Исходные файлы</Filter>
+    </Text>
+    <Text Include="frag_cube.fs">
+      <Filter>Исходные файлы</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="frag_line.fs">
+      <Filter>Исходные файлы</Filter>
+    </None>
   </ItemGroup>
 </Project>
