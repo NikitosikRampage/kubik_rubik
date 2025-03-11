@@ -341,6 +341,5 @@ int main(void)
     glDeleteProgram(prog);
     glDeleteProgram(prog_line);
 
-    glfwTerminate();
-    return 0;
+	return 0;
 }
