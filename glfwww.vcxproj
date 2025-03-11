@@ -133,7 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Desktop\all the shit\glad\src\glad.c" />
+    <ClCompile Include="glfwww\glad.c" />
     <ClCompile Include="shader.c" />
     <ClCompile Include="test.c" />
   </ItemGroup>

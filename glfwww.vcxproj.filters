@@ -18,14 +18,14 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Desktop\all the shit\glad\src\glad.c">
-      <Filter>glad</Filter>
-    </ClCompile>
     <ClCompile Include="shader.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="test.c">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="glfwww\glad.c">
+      <Filter>glad</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

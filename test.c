@@ -9,6 +9,47 @@ GLFWwindow* window;
 GLuint prog;
 GLuint prog_line;
 
+float scale = 1.0f;
+float angleX = 0.0f;
+float angleY = 0.0f;
+
+
+// Callback-функция для обработки перемещения мыши
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    static double lastX = 0, lastY = 0;
+    static bool firstMouse = true;
+
+    if (firstMouse) {
+        lastX = xpos;
+        lastY = ypos;
+        firstMouse = false;
+    }
+
+    double deltaX = xpos - lastX;
+    double deltaY = lastY - ypos; // Обратный порядок, так как ось Y направлена вниз
+
+    lastX = xpos;
+    lastY = ypos;
+
+    // Чувствительность мыши
+    float sensitivity = 0.1f;
+    angleX += deltaX *sensitivity*2; // на 2 , чтобы тупо было быстрее, но тут надо еще подумать
+    angleY += deltaY *sensitivity*2;
+}
+
+// Callback-функция для обработки событий прокрутки колесика мыши
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
+    // Изменяем радиус в зависимости от направления прокрутки
+    if (yoffset > 0) {
+        scale *= 0.9f;  // Приближаем камеру
+    }
+    else {
+        scale *= 1.1f;  // Отдаляем камеру
+    }
+}
+
+
 int main(void)
 {
     // Инициализация GLFW
@@ -26,7 +67,7 @@ int main(void)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Создание окна
-    window = glfwCreateWindow(1920, 1080, "Tutorial 01", NULL, NULL);
+    window = glfwCreateWindow(1920, 1080, "Tutorial 01", NULL, NULL); //1920 1080
     if (window == NULL) {
         fprintf(stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n");
         getchar();
@@ -287,6 +328,13 @@ int main(void)
         fprintf(stderr, "Error: Failed to get uniform locations for prog_line\n");
         return -1;
     }
+    //функции для обработки мышки
+    // Регистрация callback-функции для обработки событий прокрутки колесика мыши
+    glfwSetScrollCallback(window, scroll_callback);
+    // Установка callback-функции для обработки перемещения мыши
+    glfwSetCursorPosCallback(window, mouse_callback);
+
+
 
     // Основной цикл рендеринга
     while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
@@ -294,18 +342,26 @@ int main(void)
     {
         // Очистка буферов
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+       
+        
         // Создание и обновление матриц
         mat4 model, view, projection;
-        float angle = (float)glfwGetTime();
+        float angle = (float)glfwGetTime(); // можно убрать , осталось еше от твоего вращения куба
         glm_mat4_identity(model);
-        glm_rotate(model, angle, (vec3) { 0.5f, 1.0f, 0.0f }); // Вращение
-        glm_scale(model, (vec3) { 0.1f, 0.1f, 0.1f }); // Масштабирование
+       
+        // Применение вращения, крутим вокруг всех осей так хотябы он стоит на месте не дергается
+        glm_rotate(model, glm_rad(angleY), (vec3) { 1.0f, 1.0f, 1.0f }); // Вращение по X
+        glm_rotate(model, glm_rad(angleX), (vec3) { 1.0f, 1.0f, 1.0f }); // Вращение по Y
 
-        vec3 eye = { 0.0f, 0.0f, 3.0f };
-        vec3 center = { 0.0f, 0.0f, 0.0f };
-        vec3 up = { 0.0f, 1.0f, 0.0f };
+        
+        glm_scale(model, (vec3) { 0.1f, 0.1f, 0.1f }); // Масштабирование
+        
+        vec3 eye = { 0.0f, 0.0f, 3.0f*scale}; //2.0 // поменял положение откуда смотрим
+        vec3 center = { 0.4f, 0.4f, 0.4f}; //с 0.0 на  0.4
+        vec3 up = { 0.0f, -2.0f, 0.0f }; // с 1.0 на -2.0
         glm_lookat(eye, center, up, view);
+
+        
 
         float fov = glm_rad(45.0f);
         float aspect = 1920.0f / 1080.0f;
