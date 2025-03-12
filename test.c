@@ -308,13 +308,9 @@ int main(void) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         processKey();
 
-       // mat4 model;
-       // glm_mat4_identity(model);
-        
-
         // Создание и обновление матриц view и projection
         mat4 view, projection;
-        vec3 eye = { 5.0f, 5.0f, 5.0f }; // Камера смотрит на кубик Рубика
+        vec3 eye = { 3.0f, 3.0f, 3.0f*scale }; // Камера смотрит на кубик Рубика
         vec3 center = { 0.0f, 0.0f, 0.0f }; // Центр кубика Рубика
         vec3 up = { 0.0f, 1.0f, 0.0f };
         glm_lookat(eye, center, up, view);
@@ -340,13 +336,13 @@ int main(void) {
             // Создаем матрицу модели для текущего кубика
             mat4 model;
             glm_mat4_identity(model);
-
-            //glm_translate(model, (vec3) { -0.4f, -0.4f, -0.4f });
+            
+            glm_translate(model, (vec3) { -1.0f, -1.0f, -1.0f });
             // Применение вращения, крутим вокруг всех осей так хотябы он стоит на месте не дергается
-           // glm_rotate(model, glm_rad(angleY), (vec3) { 1.0f, 0.0f, 0.0f }); // Вращение по X
-           // glm_rotate(model, glm_rad(angleX), (vec3) { 0.0f, 1.0f, 0.0f }); // Вращение по Y
+            glm_rotate(model, glm_rad(angleY), (vec3) { 1.0f, 0.0f, 0.0f }); // Вращение по X
+            glm_rotate(model, glm_rad(angleX), (vec3) { 0.0f, 1.0f, 0.0f }); // Вращение по Y
 
-           // glm_translate(model, (vec3) { -0.4f, -0.4f, -0.4f });
+            glm_translate(model, (vec3) { -1.0f, -1.0f, - 1.0f });
 
 
             // Применяем трансляцию к матрице модели
