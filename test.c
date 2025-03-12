@@ -12,9 +12,28 @@ GLuint prog_line;
 float scale = 1.0f;
 float angleX = 0.0f;
 float angleY = 0.0f;
+/*тут надо допилить тему, что когда меняешь ориентацию, кнопки начинают путаться и вращать в другую сторону
+подумать над углами надо*/
+void processKey(GLFWwindow* window) { // Вращение кубика через клавиши
+    const float rotationSpeed = 0.1f; // Скорость вращения
 
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+        angleX += rotationSpeed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+        angleX -= rotationSpeed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+        angleY += rotationSpeed;
+    }
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        angleY -= rotationSpeed;
+    }
+}
 
-// Callback-функция для обработки перемещения мыши
+// Пока не удаляю, вдруг будет что-то завязано на вращение мышки, 
+// пусть пока реализация лежит (но это китаец, с маленькими допами)
+/* // Callback-функция для обработки перемещения мыши
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
     static double lastX = 0, lastY = 0;
@@ -36,16 +55,24 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
     float sensitivity = 0.1f;
     angleX += deltaX *sensitivity*2; // на 2 , чтобы тупо было быстрее, но тут надо еще подумать
     angleY += deltaY *sensitivity*2;
-}
+}*/
 
 // Callback-функция для обработки событий прокрутки колесика мыши
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
     // Изменяем радиус в зависимости от направления прокрутки
     if (yoffset > 0) {
-        scale *= 0.9f;  // Приближаем камеру
+        scale *= 0.9f;// Приближаем камеру
+        if (scale < 0.25f) { 
+   // ограничеваю приблежение к кубу , надо подумать, 
+   // тут можно более красиво реализовать, но вроде и так пока норм
+            scale = 0.25f;
+        }
     }
     else {
-        scale *= 1.1f;  // Отдаляем камеру
+        scale *= 1.1f;// Отдаляем камеру
+        if (scale > 3.0f) { // ограничеваю отдаление от куба
+            scale = 3.0f;
+        }
     }
 }
 
@@ -331,8 +358,10 @@ int main(void)
     //функции для обработки мышки
     // Регистрация callback-функции для обработки событий прокрутки колесика мыши
     glfwSetScrollCallback(window, scroll_callback);
-    // Установка callback-функции для обработки перемещения мыши
-    glfwSetCursorPosCallback(window, mouse_callback);
+
+    // Установка callback-функции для обработки перемещения мыши, 
+    // пока комент так как не используем
+    //glfwSetCursorPosCallback(window, mouse_callback);
 
 
 
@@ -343,7 +372,7 @@ int main(void)
         // Очистка буферов
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
        
-        
+        processKey();
         // Создание и обновление матриц
         mat4 model,projection;
         glm_mat4_identity(model);
@@ -356,9 +385,9 @@ int main(void)
         
         glm_scale(model, (vec3) { 0.1f, 0.1f, 0.1f }); // Масштабирование
 
-        vec3 eye = { 0.0f, 0.0f, 2.0f*scale}; //2.0 // поменял положение откуда смотрим
-        vec3 center = { -0.4f, -0.4f , -0.4f }; //с 0.0 на  0.4
-        vec3 up = { 0.0f, 1.0f, 0.0f }; // с 1.0 на -2.0
+        vec3 eye = { 0.0f, 0.0f, 2.0f*scale}; 
+        vec3 center = { -0.4f, -0.4f , -0.4f }; //с 0.0 на  -0.4, сместил центр осмотра
+        vec3 up = { 0.0f, 1.0f, 0.0f }; 
         mat4  view;
         glm_lookat(eye, center, up, view);
 
