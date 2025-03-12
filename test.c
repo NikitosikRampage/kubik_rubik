@@ -345,20 +345,21 @@ int main(void)
        
         
         // Создание и обновление матриц
-        mat4 model, view, projection;
-        float angle = (float)glfwGetTime(); // можно убрать , осталось еше от твоего вращения куба
+        mat4 model,projection;
         glm_mat4_identity(model);
-       
+        glm_translate(model, (vec3) { -0.4f, -0.4f, -0.4f });
         // Применение вращения, крутим вокруг всех осей так хотябы он стоит на месте не дергается
-        glm_rotate(model, glm_rad(angleY), (vec3) { 1.0f, 1.0f, 1.0f }); // Вращение по X
-        glm_rotate(model, glm_rad(angleX), (vec3) { 1.0f, 1.0f, 1.0f }); // Вращение по Y
-
+         glm_rotate(model, glm_rad(angleY), (vec3) { 1.0f, 0.0f, 0.0f }); // Вращение по X
+         glm_rotate(model, glm_rad(angleX), (vec3) { 0.0f, 1.0f, 0.0f }); // Вращение по Y
+       
+        glm_translate(model, (vec3) { -0.4f, -0.4f, -0.4f });
         
         glm_scale(model, (vec3) { 0.1f, 0.1f, 0.1f }); // Масштабирование
-        
-        vec3 eye = { 0.0f, 0.0f, 3.0f*scale}; //2.0 // поменял положение откуда смотрим
-        vec3 center = { 0.4f, 0.4f, 0.4f}; //с 0.0 на  0.4
-        vec3 up = { 0.0f, -2.0f, 0.0f }; // с 1.0 на -2.0
+
+        vec3 eye = { 0.0f, 0.0f, 2.0f*scale}; //2.0 // поменял положение откуда смотрим
+        vec3 center = { -0.4f, -0.4f , -0.4f }; //с 0.0 на  0.4
+        vec3 up = { 0.0f, 1.0f, 0.0f }; // с 1.0 на -2.0
+        mat4  view;
         glm_lookat(eye, center, up, view);
 
         
@@ -384,7 +385,7 @@ int main(void)
         glUniformMatrix4fv(viewLocLine, 1, GL_FALSE, (float*)view);
         glUniformMatrix4fv(projectionLocLine, 1, GL_FALSE, (float*)projection);
         glDrawElements(GL_LINES, 1536, GL_UNSIGNED_INT, (void*)(2304 * sizeof(unsigned int)));
-
+       
         // Обновление окна
         glfwSwapBuffers(window);
         glfwPollEvents();
