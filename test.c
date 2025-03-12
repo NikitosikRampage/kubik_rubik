@@ -14,7 +14,7 @@ float angleX = 0.0f;
 float angleY = 0.0f;
 /*тут надо допилить тему, что когда меняешь ориентацию, кнопки начинают путаться и вращать в другую сторону
 подумать над углами надо*/
-void processKey(GLFWwindow* window) { // Вращение кубика через клавиши
+void processKey() { // Вращение кубика через клавиши
     const float rotationSpeed = 0.1f; // Скорость вращения
 
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
