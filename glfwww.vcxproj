@@ -146,6 +146,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="frag_line.fs" />
+    <None Include="frag_square.fs" />
+    <None Include="vert_square.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

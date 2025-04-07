@@ -45,5 +45,11 @@
     <None Include="frag_line.fs">
       <Filter>Исходные файлы</Filter>
     </None>
+    <None Include="vert_square.vs">
+      <Filter>Исходные файлы</Filter>
+    </None>
+    <None Include="frag_square.fs">
+      <Filter>Исходные файлы</Filter>
+    </None>
   </ItemGroup>
 </Project>
